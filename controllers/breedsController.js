@@ -4,28 +4,32 @@ exports.getBreeds = async (req, res, next) => {
     try {
         console.log(`req.query:>>`, req.query.limit)
         if (req && req.query && req.query.limit != undefined) {
-            let limit = req.query.limit
-            const { data } = await api.get('breeds');
-            const limitedBreed = data.map(el => {
-                return {
-                    name: el.name,
-                    origin: el.origin,
-                    bredFor: el.bredFor,
-                    temperament: el.temperament,
-                    weight: {
-                        imperial: el.weight.imperial,
-                        metric: el.weight.metric
-                    },
-                    height: {
-                        imperial: el.height.imperial,
-                        metric: el.height.metric
-                    },
-                    group: el.breedGroup,
-                    lifeSpan: el.life_span,
-                    image: el.image.url
-                }
-            }).slice(0, limit);
-            return res.status(200).send({ Breeds: limitedBreed });
+            try {
+                let limit = req.query.limit
+                const { data } = await api.get('breeds');
+                const limitedBreed = data.map(el => {
+                    return {
+                        name: el.name,
+                        origin: el.origin,
+                        bredFor: el.bredFor,
+                        temperament: el.temperament,
+                        weight: {
+                            imperial: el.weight.imperial,
+                            metric: el.weight.metric
+                        },
+                        height: {
+                            imperial: el.height.imperial,
+                            metric: el.height.metric
+                        },
+                        group: el.breedGroup,
+                        lifeSpan: el.life_span,
+                        image: el.image.url
+                    }
+                }).slice(0, limit);
+                return res.status(200).send({ Breeds: limitedBreed });
+            } catch (error) {
+                throw res.status(400).send({Error: error.message});
+            }
         }
         const { data } = await api.get('breeds');
         console.log(`data.length`, data.length)
