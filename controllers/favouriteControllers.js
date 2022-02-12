@@ -1,5 +1,4 @@
 const api = require('../api/api');
-const favouriteModel = require('../models/favouriteModel');
 
 exports.getFavourites = async (req, res, next) => {
     try {
@@ -7,7 +6,7 @@ exports.getFavourites = async (req, res, next) => {
         return res.status(200).send({ Favourite: data });
     } catch (error) {
         console.log(`error :>>`, error);
-        throw error
+        throw res.status(400).send({ Error: error.message });
     }
 }
 
@@ -39,7 +38,7 @@ exports.deleteFavouriteById = async (req, res, next) => {
         const id = req.params.id
         const { data } = await api.delete(`favourites/${id}`);
         console.log(`data`, data)
-        return res.status(200).send({ Message: 'Favourite removed' , Data: data.message })
+        return res.status(200).send({ Message: 'Favourite removed', Data: data.message })
     } catch (error) {
         console.log(`error :>>`, error)
         throw res.status(400).send({ Error: error.message })
