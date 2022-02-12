@@ -11,6 +11,7 @@ server.listen(port, () => {
 
 
 server.get('/breeds', breedsControllers.getBreeds);
+server.get('/breeds/:id', breedsControllers.getBreedById);
 
 server.get('/favourites', favouriteController.getFavourites);
 server.get('/favourites/:id', favouriteController.getFavouritesById);
