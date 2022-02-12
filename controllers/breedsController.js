@@ -2,12 +2,39 @@ const api = require('../api/api');
 
 exports.getBreeds = async (req, res, next) => {
     try {
+        console.log(`req.query:>>`, req.query.limit)
+        if (req && req.query && req.query.limit != undefined) {
+            let limit = req.query.limit
+            const { data } = await api.get('breeds');
+            const limitedBreed = data.map(el => {
+                return {
+                    name: el.name,
+                    origin: el.origin,
+                    bredFor: el.bredFor,
+                    temperament: el.temperament,
+                    weight: {
+                        imperial: el.weight.imperial,
+                        metric: el.weight.metric
+                    },
+                    height: {
+                        imperial: el.height.imperial,
+                        metric: el.height.metric
+                    },
+                    group: el.breedGroup,
+                    lifeSpan: el.life_span,
+                    image: el.image.url
+                }
+            }).slice(0, limit);
+            return res.status(200).send({ Breeds: limitedBreed });
+        }
         const { data } = await api.get('breeds');
+        console.log(`data.length`, data.length)
         const breedInfo = data.map(el => {
             return {
                 name: el.name,
                 origin: el.origin,
                 bredFor: el.bredFor,
+                temperament: el.temperament,
                 weight: {
                     imperial: el.weight.imperial,
                     metric: el.weight.metric
@@ -21,7 +48,7 @@ exports.getBreeds = async (req, res, next) => {
                 image: el.image.url
             }
         });
-        return res.status(200).send({ Breeds: data });
+        return res.status(200).send({ Breeds: breedInfo });
     } catch (error) {
         throw res.status(400).send({ Error: error.message });
     }
@@ -31,7 +58,6 @@ exports.getBreedById = async (req, res, next) => {
     try {
         const id = req.params.id
         const { data } = await api.get(`breeds/${id}`);
-        console.log(`data :>>`, data);
         const breedIdInfo = {
             name: data.name,
             lifeSpan: data.life_span,
