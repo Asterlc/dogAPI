@@ -2,7 +2,6 @@ const api = require('../api/api');
 
 exports.getBreeds = async (req, res, next) => {
     try {
-        console.log(`req.query:>>`, req.query.limit)
         if (req && req.query && req.query.limit != undefined) {
             try {
                 let limit = req.query.limit
@@ -32,7 +31,6 @@ exports.getBreeds = async (req, res, next) => {
             }
         }
         const { data } = await api.get('breeds');
-        console.log(`data.length`, data.length)
         const breedInfo = data.map(el => {
             return {
                 name: el.name,
