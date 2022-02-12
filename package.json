@@ -1,0 +1,17 @@
+{
+  "name": "dogapi",
+  "version": "1.0.0",
+  "description": "Dog API",
+  "main": "index.js",
+  "scripts": {
+    "dog": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas Aster",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15"
+  }
+}
