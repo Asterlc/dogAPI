@@ -12,3 +12,4 @@ server.listen(port, () => {
 server.get('/favourites', favouriteController.getFavourites);
 server.get('/favourites/:id', favouriteController.getFavouritesById);
 server.post('/favourites', favouriteController.postFavourite);
+server.delete('/favourites/:id', favouriteController.deleteFavouriteById);

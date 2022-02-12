@@ -30,7 +30,20 @@ exports.postFavourite = async (req, res, next) => {
         });
         return res.status(201).send({ Message: 'Favourite created', Data: data });
     } catch (error) {
-        console.log(`error PostFavourite:>>`, error)
-        throw res.status(400).send({ error })
+        throw res.status(400).send({ Error: error.message })
     }
 }
+
+exports.deleteFavouriteById = async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const { data } = await api.delete(`favourites/${id}`);
+        console.log(`data`, data)
+        return res.status(200).send({ Message: 'Favourite removed' , Data: data.message })
+    } catch (error) {
+        console.log(`error :>>`, error)
+        throw res.status(400).send({ Error: error.message })
+    }
+}
+
+
